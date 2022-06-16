@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+// import band model
+use App\Models\band;
 
 class band_controller extends Controller
 {
@@ -14,6 +16,9 @@ class band_controller extends Controller
     public function index()
     {
         //
+        $band = band::all();
+
+        return view('bands.index');
     }
 
     /**
@@ -24,6 +29,7 @@ class band_controller extends Controller
     public function create()
     {
         //
+
     }
 
     /**
