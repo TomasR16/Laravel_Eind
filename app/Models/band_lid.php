@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class band_lid extends Model
+class Band_lid extends Model
 {
     use HasFactory;
 

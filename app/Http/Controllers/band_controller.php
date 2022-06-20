@@ -4,21 +4,23 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 // import band model
-use App\Models\band;
+use App\Models\Band;
 
-class band_controller extends Controller
+class Band_controller extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
+
     public function index()
     {
-        //
+        // get all bands from Band object 
         $band = band::all();
 
-        return view('bands.index');
+        // return to view with band
+        return view('band.index', compact('band'));
     }
 
     /**
@@ -28,8 +30,8 @@ class band_controller extends Controller
      */
     public function create()
     {
-        //
-
+        // create new band
+        return view('band.create');
     }
 
     /**
@@ -49,9 +51,10 @@ class band_controller extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Band $band)
     {
-        //
+        // Show band EPK
+        return view('band.show');
     }
 
     /**
@@ -60,9 +63,10 @@ class band_controller extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Band $band)
     {
-        //
+        // edit band
+        return view('band.edit', compact('band'));
     }
 
     /**

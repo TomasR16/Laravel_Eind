@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class youtube_controller extends Controller
+class Youtube_controller extends Controller
 {
     /**
      * Display a listing of the resource.

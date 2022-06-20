@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class band_lid_controller extends Controller
+class Band_lid_controller extends Controller
 {
     /**
      * Display a listing of the resource.

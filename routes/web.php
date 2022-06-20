@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\Band_controller;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -18,4 +18,4 @@ Route::get('/', function () {
 });
 
 // add route 
-Route::resource('band', 'band_controller');
+Route::resource('band', 'App\Http\Controllers\Band_controller');
