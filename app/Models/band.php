@@ -10,6 +10,6 @@ class Band extends Model
     use HasFactory;
 
     protected $fillable = [
-        'band_name', 'bio', 'photo'
+        'band_name', 'bio', 'song', 'photo'
     ];
 }

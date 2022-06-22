@@ -16,7 +16,8 @@ return new class extends Migration
         Schema::create('band_lids', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->string('band_id');
+            $table->string('name');
+            $table->unsignedBigInteger('band_id');
             $table->string('user_id');
         });
     }
