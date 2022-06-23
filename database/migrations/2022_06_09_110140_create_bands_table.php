@@ -19,7 +19,6 @@ return new class extends Migration
             $table->timestamps();
             $table->string('band_name');
             $table->string('bio');
-            $table->string('song');
             $table->string('photo');
         });
     }

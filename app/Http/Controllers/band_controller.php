@@ -31,7 +31,7 @@ class Band_controller extends Controller
     public function create()
     {
         // create new band
-        return view('band.create');
+        return view('band.create',);
     }
 
     /**
@@ -54,7 +54,7 @@ class Band_controller extends Controller
     public function show(Band $band)
     {
         // Show band EPK
-        return view('band.show');
+        return view('band.show', compact('band'));
     }
 
     /**
