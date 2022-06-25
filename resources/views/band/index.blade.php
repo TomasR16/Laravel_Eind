@@ -14,11 +14,11 @@
 
 
 <div>
-    <a style="margin: 19px;" href="{{ route('band.create')}}" class="btn btn-primary">Band toevoegen</a>
+    <a style="margin: 12px;" href="{{ route('band.create')}}" class="btn btn-primary">Band toevoegen</a>
 </div>
 <div class="row">
     <div class="col-sm-12">
-        <h1 class="display-3">Bands</h1>
+        <h1 class="display-3">Bands:</h1>
         <table class="table table-striped">
             <thead>
                 <tr>

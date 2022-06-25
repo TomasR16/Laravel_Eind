@@ -87,8 +87,12 @@ class Band_controller extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Band $band)
     {
-        //
+        // Get band id and delete
+        dd($band);
+        //$band->delete();
+        // Redirect to index
+        //return redirect('/band')->with('success', 'Band Deleted!');
     }
 }
