@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Band_controller;
+use Illuminate\Support\Facades\Auth;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -17,5 +19,13 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-// add route 
-Route::resource('band', 'App\Http\Controllers\Band_controller');
+
+
+Auth::routes();
+
+Route::group(['middelware' => ['auth']], function () {
+    // add route 
+    Route::resource('band', 'App\Http\Controllers\Band_controller');
+    // require HomeController
+    Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+});

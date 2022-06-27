@@ -30,8 +30,8 @@ class Band_controller extends Controller
      */
     public function create()
     {
-        // create new band
-        return view('band.create',);
+        $bands = Band::orderby('band_name', 'desc')->pluck('band_name', 'id');
+        return view('band.create', compact('bands'));
     }
 
     /**
@@ -42,7 +42,15 @@ class Band_controller extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // validate input data
+        $request->validate([
+            'band_name' => 'required',
+            'bio' => 'required',
+            'photo' => 'required'
+        ]);
+        // Send data to database
+        Band::create($request->all());
+        return redirect()->route('band.index')->with('success', 'Band created!');
     }
 
     /**
@@ -76,9 +84,18 @@ class Band_controller extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Band $band)
     {
-        //
+
+        // validate input data
+        $request->validate([
+            'band_name' => 'required',
+            'bio' => 'required'
+        ]);
+        // update band object
+        $band->update($request->all());
+        // return to index
+        return redirect('/band')->with('success', 'Band updated');
     }
 
     /**
@@ -89,10 +106,10 @@ class Band_controller extends Controller
      */
     public function destroy(Band $band)
     {
+        //dd($band);
         // Get band id and delete
-        dd($band);
-        //$band->delete();
+        $band->delete();
         // Redirect to index
-        //return redirect('/band')->with('success', 'Band Deleted!');
+        return redirect('/band')->with('success', 'Band deleted!');
     }
 }

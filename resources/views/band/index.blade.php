@@ -14,7 +14,7 @@
 
 
 <div>
-    <a style="margin: 12px;" href="{{ route('band.create')}}" class="btn btn-primary">Band toevoegen</a>
+    <a style="margin: 12px;" href="{{ route('band.create')}}" class="btn btn-primary">Create band</a>
 </div>
 <div class="row">
     <div class="col-sm-12">
