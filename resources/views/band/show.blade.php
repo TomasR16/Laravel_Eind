@@ -20,7 +20,7 @@
         <div class="container">
             <h1 class="display-4">{{$band->band_name}}</h1>
             <hr>
-
+            <h2>{{$band->users}}</h2>
 
             <div class="jumbotron h6">
                 <h3 class="jumbotron h2">Band biography:</h3>

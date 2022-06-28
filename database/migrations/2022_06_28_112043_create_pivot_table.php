@@ -13,13 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('band_lids', function (Blueprint $table) {
+        Schema::create('pivot', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            // $table->unsignedBigInteger('band_id');
-            $table->foreignId('band_id')->constrained();
-            // $table->unsignedBigInteger('user_id');
-            $table->foreignId('user_id')->constrained();
         });
     }
 
@@ -30,6 +26,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('band_lids');
+        Schema::dropIfExists('pivot');
     }
 };

@@ -19,6 +19,7 @@
 <div class="row">
     <div class="col-sm-12">
         <h1 class="display-3">Bands:</h1>
+       
         <table class="table table-striped">
             <thead>
                 <tr>

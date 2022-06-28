@@ -5,11 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Band_lid extends Model
+class BandUser extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'band_id', 'user_id'
-    ];
+    public $timestamps = false;
 }

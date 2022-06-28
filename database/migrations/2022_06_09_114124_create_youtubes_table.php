@@ -15,7 +15,6 @@ return new class extends Migration
     {
         Schema::create('youtubes', function (Blueprint $table) {
             $table->id();
-            $table->timestamps();
         });
     }
 

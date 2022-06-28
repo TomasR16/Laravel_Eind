@@ -19,6 +19,7 @@ class Band_controller extends Controller
         // get all bands from Band object 
         $band = Band::all();
 
+
         // return to view with band
         return view('band.index', compact('band'));
     }
