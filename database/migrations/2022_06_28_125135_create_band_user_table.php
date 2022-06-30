@@ -8,9 +8,11 @@ return new class extends Migration
 {
     /**
      * Run the migrations.
-     *
+     * 
      * @return void
      */
+    // This is the Pivot table 
+
     public function up()
     {
         Schema::create('band_user', function (Blueprint $table) {

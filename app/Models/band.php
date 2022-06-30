@@ -20,7 +20,7 @@ class Band extends Model
         // The first argument passed to the hasManyThrough method is the name
         // of the final model we wish to access,
         // while the second argument is the name of the intermediate model.
-        return $this->hasMany(
+        return $this->belongsToMany(
             User::class
         );
     }

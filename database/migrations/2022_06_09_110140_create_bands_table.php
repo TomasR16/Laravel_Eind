@@ -11,7 +11,7 @@ return new class extends Migration
      *
      * @return void
      */
-    // !!RUN MIGRATIONS!!
+
     public function up()
     {
         Schema::create('bands', function (Blueprint $table) {
