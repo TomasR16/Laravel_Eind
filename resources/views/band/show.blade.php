@@ -16,7 +16,6 @@
         <br />
         @endif
 
-
         <div class="container">
             <h1 class="display-4">{{$band->band_name}}</h1>
             <hr>
@@ -25,8 +24,13 @@
                 <h3 class="jumbotron h2">Band biography:</h3>
                 <br>
                 <p class="jumbotron h3">{{$band->bio}}</p>
-                <h2>{{$band->users}}</h2>
-                
+                <hr>
+                <h1 class="jumbotron h1">Members:</h1>
+                <br>
+                <!-- Show band users -->
+                @foreach($band->users as $user)
+                <h2>id {{$user->id}}: {{$user->name}}</h2>
+                @endforeach
             </div>
         </div>
         <div>

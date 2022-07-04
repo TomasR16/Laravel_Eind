@@ -16,8 +16,9 @@ return new class extends Migration
     public function up()
     {
         Schema::create('band_user', function (Blueprint $table) {
-            $table->integer('band_id');
-            $table->integer('user_id');
+            $table->id();
+            $table->foreignId('band_id')->constrained();
+            $table->foreignId('user_id')->constrained();
         });
     }
 

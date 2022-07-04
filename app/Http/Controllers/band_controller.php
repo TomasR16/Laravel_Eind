@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 // import band model
 use App\Models\Band;
+use App\Models\User;
 
 class Band_controller extends Controller
 {
@@ -75,7 +76,8 @@ class Band_controller extends Controller
     public function edit(Band $band)
     {
         // edit band
-        return view('band.edit', compact('band'));
+        $users = User::pluck('name', 'id');
+        return view('band.edit', compact('band', 'users'));
     }
 
     /**
@@ -88,10 +90,16 @@ class Band_controller extends Controller
     public function update(Request $request, Band $band)
     {
 
+        // dd($band->users);
+        // $user = User::find($user_id);
+        // $band->users()->save($user);
+        $band->users()->sync($request->input()['users']);
+
         // validate input data
         $request->validate([
             'band_name' => 'required',
-            'bio' => 'required'
+            'bio' => 'required',
+            'photo' => 'required'
         ]);
         // update band object
         $band->update($request->all());
@@ -108,6 +116,8 @@ class Band_controller extends Controller
     public function destroy(Band $band)
     {
         //dd($band);
+        // detach users from band
+        $band->users()->detach();
         // Get band id and delete
         $band->delete();
         // Redirect to index
