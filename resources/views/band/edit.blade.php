@@ -30,28 +30,23 @@
                 <label for="last_name">Biography:</label>
                 <input type="text" class="form-control" width="5" name="bio" value="{{ $band->bio }}" />
             </div>
+
             <div class="form-group">
                 <label for="photo">Photograph:</label>
                 <input type="text" class="form-control" name="photo" value="{{ $band->photo }}" />
             </div>
-            <div class="form-group">
-                <!-- Show band users -->
-                @foreach($band->users as $user)
-                <h2>id {{$user->id}}: {{$user->name}}</h2>
-                @endforeach
-            </div>
 
             <div class="form-group">
-                <label for="member">User</label>
-                {!! Form::select('users[]', $users, $band->users, 
-                    ['class' => 'form-control', 'multiple']) !!}
-                <!-- Form::select('user_id', $users, $band->tempUser,
-                ['placeholder' => 'Kies een user...',
-                'class' => 'form-control']) !!} -->
+                <label for="member">Select user/users:</label>
+                <!-- Special Form with laravel/collective package -->
+                {!! Form::select('users[]', $users, $band->users,
+                ['class' => 'form-control', 'multiple']) !!}
             </div>
-
             <br>
-            <button type="submit" class="btn btn-primary">Confirm</button>
+            <div class="form-group pull-right">
+                <a class="btn btn-danger" href="{{ route('band.index') }}">Cancel</a>
+                <button type="submit" class="btn btn-primary">Confirm</button>
+            </div>
         </form>
     </div>
 </div>

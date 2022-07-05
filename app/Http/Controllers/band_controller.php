@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-// import band model
+// import Models
 use App\Models\Band;
 use App\Models\User;
 
@@ -19,8 +19,6 @@ class Band_controller extends Controller
     {
         // get all bands from Band object 
         $band = Band::all();
-
-
         // return to view with band
         return view('band.index', compact('band'));
     }
@@ -30,10 +28,12 @@ class Band_controller extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Band $band)
     {
-        $bands = Band::orderby('band_name', 'desc')->pluck('band_name', 'id');
-        return view('band.create', compact('bands'));
+        // select name and id from User object
+        $users = User::pluck('name', 'id');
+        // return view band edit with values
+        return view('band.create', compact('band', 'users'));
     }
 
     /**
@@ -42,7 +42,7 @@ class Band_controller extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, Band $band)
     {
         // validate input data
         $request->validate([
@@ -50,8 +50,10 @@ class Band_controller extends Controller
             'bio' => 'required',
             'photo' => 'required'
         ]);
+        //dd($band);
         // Send data to database
-        Band::create($request->all());
+        $band = Band::create($request->all());
+        $band->users()->sync($request->input()['users']);
         return redirect()->route('band.index')->with('success', 'Band created!');
     }
 
@@ -75,8 +77,9 @@ class Band_controller extends Controller
      */
     public function edit(Band $band)
     {
-        // edit band
+        // select name and id from User object
         $users = User::pluck('name', 'id');
+        // return view band edit with values
         return view('band.edit', compact('band', 'users'));
     }
 
@@ -91,8 +94,7 @@ class Band_controller extends Controller
     {
 
         // dd($band->users);
-        // $user = User::find($user_id);
-        // $band->users()->save($user);
+
         $band->users()->sync($request->input()['users']);
 
         // validate input data
