@@ -38,9 +38,15 @@
 
             <div class="form-group">
                 <label for="member">Select user/users:</label>
-                <!-- Special Form with laravel/collective package -->
-                {!! Form::select('users[]', $users, $band->users,
-                ['class' => 'form-control', 'multiple']) !!}
+
+                <select name="users">
+                    <option value="">No user</option>
+                    @foreach ($users as $user)
+                    <option value="{{ $user->id }}">{{ $user->name }}</option>
+                    @endforeach
+                </select>
+
+
             </div>
             <br>
             <div class="form-group pull-right">

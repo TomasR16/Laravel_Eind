@@ -9,6 +9,7 @@ use App\Models\User;
 
 class Band_controller extends Controller
 {
+
     /**
      * Display a listing of the resource.
      *
@@ -51,9 +52,14 @@ class Band_controller extends Controller
             'photo' => 'required'
         ]);
         //dd($band);
-        // Send data to database
+        // Create new band
         $band = Band::create($request->all());
-        $band->users()->sync($request->input()['users']);
+        // check if band object has users object
+        if (!empty($request->input()['users'])) {
+            // Add users to band
+            $band->users()->sync($request->input()['users']);
+        }
+        // Go to index
         return redirect()->route('band.index')->with('success', 'Band created!');
     }
 
@@ -78,7 +84,8 @@ class Band_controller extends Controller
     public function edit(Band $band)
     {
         // select name and id from User object
-        $users = User::pluck('name', 'id');
+        $users = User::all('name', 'id');
+
         // return view band edit with values
         return view('band.edit', compact('band', 'users'));
     }
