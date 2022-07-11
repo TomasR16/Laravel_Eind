@@ -23,6 +23,9 @@ Route::get('/', function () {
 
 Auth::routes();
 
+
+
+
 Route::group(['middelware' => ['auth']], function () {
     // add route 
     Route::resource('band', 'App\Http\Controllers\Band_controller');

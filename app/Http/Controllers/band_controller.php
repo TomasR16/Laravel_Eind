@@ -2,10 +2,14 @@
 
 namespace App\Http\Controllers;
 
+// use request for handeling data
 use Illuminate\Http\Request;
+
 // import Models
 use App\Models\Band;
+use App\Models\BandUser;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 class Band_controller extends Controller
 {
@@ -51,10 +55,10 @@ class Band_controller extends Controller
             'bio' => 'required',
             'photo' => 'required'
         ]);
-        //dd($band);
+        // dd($band, $request);
         // Create new band
         $band = Band::create($request->all());
-        // check if band object has users object
+        // Check if input is empty 
         if (!empty($request->input()['users'])) {
             // Add users to band
             $band->users()->sync($request->input()['users']);
@@ -100,9 +104,8 @@ class Band_controller extends Controller
     public function update(Request $request, Band $band)
     {
 
-        // dd($band->users);
-
-        $band->users()->sync($request->input()['users']);
+        // attach an user to band
+        $band->users()->syncWithoutDetaching($request->input()['users']);
 
         // validate input data
         $request->validate([
