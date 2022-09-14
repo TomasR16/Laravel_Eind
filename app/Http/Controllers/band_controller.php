@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-// use request for handeling data
+// use request for handling data
 use Illuminate\Http\Request;
 
 // import Models
@@ -10,9 +10,16 @@ use App\Models\Band;
 use App\Models\BandUser;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class Band_controller extends Controller
 {
+    // Contructor method 
+    public function __construct()
+    {
+        // Must be logged in to see contacts!
+        $this->middleware('auth', ['except' => ['login', 'show']]);
+    }
 
     /**
      * Display a listing of the resource.
@@ -53,16 +60,39 @@ class Band_controller extends Controller
         $request->validate([
             'band_name' => 'required',
             'bio' => 'required',
-            'photo' => 'required'
+            // nullable == optional
+            // apache max upload 2mb
+            'photo' => 'image|nullable|max:1999'
         ]);
-        // dd($band, $request);
+
         // Create new band
         $band = Band::create($request->all());
+
         // Check if input is empty 
         if (!empty($request->input()['users'])) {
             // Add users to band
             $band->users()->sync($request->input()['users']);
         }
+
+        // Handle File Upload
+        if ($request->hasFile('photo')) {
+            // Get filename with extension            
+            $filenameWithExt = $request->file('photo')->getClientOriginalName();
+            // Get just filename
+            $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+            // Get just ext
+            $extension = $request->file('photo')->getClientOriginalExtension();
+            //Filename to store
+            $fileNameToStore = $filename . '_' . time() . '.' . $extension;
+            // Upload Image
+            $path = $request->file('photo')->storeAs('public/photo', $fileNameToStore);
+        } else {
+            $fileNameToStore = 'noimage.jpg';
+        }
+
+
+        $band->photo = $fileNameToStore;
+        $band->save();
         // Go to index
         return redirect()->route('band.index')->with('success', 'Band created!');
     }
@@ -76,7 +106,11 @@ class Band_controller extends Controller
     public function show(Band $band)
     {
         // Show band EPK
-        return view('band.show', compact('band'));
+        if (Auth::user()) {
+            return view('band.show', compact('band'));
+        } else {
+            return redirect()->route('band.index');
+        }
     }
 
     /**
@@ -111,10 +145,34 @@ class Band_controller extends Controller
         $request->validate([
             'band_name' => 'required',
             'bio' => 'required',
-            'photo' => 'required'
+            'photo' => 'image|nullable|max:1999'
         ]);
-        // update band object
+
+
+        // Handle File Upload
+        if ($request->hasFile('photo')) {
+
+            // Get filename with extension            
+            $filenameWithExt = $request->file('photo')->getClientOriginalName();
+            // Get just filename
+            $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+            // Get just ext
+            $extension = $request->file('photo')->getClientOriginalExtension();
+            //Filename to store
+            $fileNameToStore = $filename . '_' . time() . '.' . $extension;
+            // Upload Image
+            $path = $request->file('photo')->storeAs('public/photo', $fileNameToStore);
+        } else {
+            $fileNameToStore = 'noimage.jpg';
+        }
+        // Update band fields name etc.
         $band->update($request->all());
+
+        // get file name in storage/photo form Ariane5_1657926082.jpg
+        $band->photo = $fileNameToStore;
+
+        // update existing model
+        $band->save();
         // return to index
         return redirect('/band')->with('success', 'Band updated');
     }

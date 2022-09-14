@@ -16,7 +16,7 @@
             </ul>
         </div><br />
         @endif
-        <form method="post" action="{{ route('band.store') }}">
+        <form method="post" action="{{ route('band.store') }}" enctype="multipart/form-data">
 
             @csrf
             <div class="form-group">
@@ -29,9 +29,12 @@
                 <input type="text" class="form-control" name="bio" />
             </div>
             <div class="form-group">
-                <label for="photo">Band photograph:</label>
-                <input type="text" class="form-control" name="photo" />
+                <label for="photo">Upload Photo:</label>
+                <br>
+                {{Form::file('photo')}}
+
             </div>
+            <br>
             <div class="form-group">
                 <label for="member">Select user/users:</label>
                 <!-- Special Form with laravel/collective package -->
@@ -40,6 +43,7 @@
             </div>
             <br>
             <button type="submit" class="btn btn-primary">Add</button>
+            <a class="btn btn-danger" href="{{ route('band.index') }}">Cancel</a>
         </form>
     </div>
 </div>

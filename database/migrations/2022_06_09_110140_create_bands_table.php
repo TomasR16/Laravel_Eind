@@ -18,7 +18,7 @@ return new class extends Migration
             $table->id();
             $table->string('band_name');
             $table->string('bio', 500);
-            $table->string('photo');
+            $table->string('photo')->nullable();
         });
     }
 

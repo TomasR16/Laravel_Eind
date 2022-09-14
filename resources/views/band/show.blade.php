@@ -32,6 +32,7 @@
                 <h2>id {{$user->id}}: {{$user->name}}</h2>
                 @endforeach
             </div>
+            <img style="width:100%" src="/storage/photo/{{$band->photo}}" alt="Band photograph" >
         </div>
         <div>
             <a style="margin: 19px;" href="{{ route('band.index')}}" class="btn btn-primary">&larr; back</a>

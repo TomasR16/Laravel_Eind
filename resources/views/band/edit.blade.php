@@ -17,7 +17,7 @@
             </div>
             <br />
             @endif
-            <form method="post" action="{{ route('band.update', $band->id) }}">
+            <form method="post" action="{{ route('band.update', $band->id) }}" enctype="multipart/form-data">
                 @method('PATCH')
                 @csrf
                 <div class="form-group">
@@ -32,11 +32,13 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="photo">Photograph:</label>
-                    <input type="text" class="form-control" name="photo" value="{{ $band->photo }}" />
+                    <label for="photo">Upload Photo:</label>
+                    <br>
+                    {{Form::file('photo')}}
                 </div>
 
                 <div class="form-group">
+                    <br>
                     <label for="member">Select new band user:</label>
                     <br>
                     <!-- adding user to band -->
@@ -49,10 +51,11 @@
                 </div>
                 <br>
                 <div class="form-group pull-right">
-                    <a class="btn btn-danger" href="{{ route('band.index') }}">Cancel</a>
                     <button type="submit" class="btn btn-primary">Confirm</button>
+                    <a class="btn btn-danger" href="{{ route('band.index') }}">Cancel</a>
                 </div>
             </form>
+            <br>
         </div>
 
         <!-- Side column -->
