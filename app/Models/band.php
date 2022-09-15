@@ -23,4 +23,9 @@ class Band extends Model
             User::class
         );
     }
+
+    public static function bandSearch($name)
+    {
+        return Band::where('band_name', 'LIKE', "%$name%")->get();
+    }
 }
