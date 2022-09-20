@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Band>
  */
+
 class BandFactory extends Factory
 {
     /**
@@ -22,7 +23,9 @@ class BandFactory extends Factory
         $band = Band::factory()->create();
 
         return [
-            'band_name' => $this->faker->company,
+            'band_name' => $this->faker->firstName,
+            'bio' => $this->faker->text,
+            'photo' => $this->faker->title
         ];
     }
 }

@@ -21,7 +21,7 @@
             <hr>
             <div class="jumbotron h6">
 
-                <h3 class="jumbotron h2">Band biography:</h3>
+                <h3 class="jumbotron h1">Band biography:</h3>
                 <br>
                 <p class="jumbotron h3">{{$band->bio}}</p>
                 <hr>

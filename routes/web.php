@@ -29,6 +29,7 @@ Auth::routes();
 Route::group(['middelware' => ['auth']], function () {
     // add route 
     Route::resource('band', 'App\Http\Controllers\Band_controller');
+    Route::resource('profile', 'App\Http\Controllers\UserController');
     // require HomeController
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 });

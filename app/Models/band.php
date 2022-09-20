@@ -26,6 +26,6 @@ class Band extends Model
 
     public static function bandSearch($name)
     {
-        return Band::where('band_name', 'LIKE', "%$name%")->get();
+        return Band::where('band_name', 'LIKE', "%$name%")->orWhere('bio', 'LIKE', "%$name%")->get();
     }
 }
