@@ -63,7 +63,8 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        //
+        $users = Auth::user();
+        return view('profile.edit', compact('users'));
     }
 
     /**
