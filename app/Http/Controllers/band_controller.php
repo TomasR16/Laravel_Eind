@@ -90,7 +90,6 @@ class Band_controller extends Controller
             $fileNameToStore = 'noimage.jpg';
         }
 
-
         $band->photo = $fileNameToStore;
         $band->save();
         // Go to index
@@ -148,6 +147,8 @@ class Band_controller extends Controller
             'photo' => 'image|nullable|max:1999'
         ]);
 
+        // Update band fields name etc.
+        $band->update($request->all());
 
         // Handle File Upload
         if ($request->hasFile('photo')) {
@@ -162,17 +163,12 @@ class Band_controller extends Controller
             $fileNameToStore = $filename . '_' . time() . '.' . $extension;
             // Upload Image
             $path = $request->file('photo')->storeAs('public/photo', $fileNameToStore);
-        } else {
-            $fileNameToStore = 'noimage.jpg';
+            // get file name in storage/photo form Ariane5_1657926082.jpg
+            $band->photo = $fileNameToStore;
+            // update existing model
+            $band->save();
         }
-        // Update band fields name etc.
-        $band->update($request->all());
 
-        // get file name in storage/photo form Ariane5_1657926082.jpg
-        $band->photo = $fileNameToStore;
-
-        // update existing model
-        $band->save();
         // return to index
         return redirect('/band')->with('success', 'Band updated');
     }
