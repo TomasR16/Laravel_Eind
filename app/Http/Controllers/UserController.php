@@ -9,9 +9,16 @@ use App\Models\Band;
 use App\Models\BandUser;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
+    // Contructor method 
+    public function __construct()
+    {
+        // Must be logged in to see contacts!
+        $this->middleware('auth', ['except' => ['login', 'show']]);
+    }
     /**
      * Display a listing of the resource.
      *
@@ -61,10 +68,12 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(User $user)
     {
-        $users = Auth::user();
-        return view('profile.edit', compact('users'));
+        // Get user object
+        // $users = Auth::user()->id;
+        // return view with user object 
+        return view('profile.edit');
     }
 
     /**
@@ -74,9 +83,28 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, User $user)
     {
-        //
+
+        $user = Auth::user();
+        //validation rules
+        // $request->validate([
+        //     'name' => 'string',
+        //     'email' => 'required|between:3,64|email|unique:users',
+        //     'password' => 'string'
+        // ]);
+        //dd($request);
+        //dd($request);
+        $user->name = $request->name;
+        $user->email = $request->email;
+
+        if ($user->password != $request->password) {
+            $user->password = Hash::make($request->password);
+        }
+        $user->save($request->all());
+
+        // return to index
+        return redirect('/profile')->with('success', 'Profile updated');
     }
 
     /**

@@ -1,7 +1,11 @@
 @extends('layouts.app')
 
 @section('content')
-
+@if(session()->get('success'))
+<div class="alert alert-success">
+    {{ session()->get('success') }}
+</div>
+@endif
 <h1>Welcome: {{Auth::user()->name}}</h1>
 <section style="background-color: #eee;">
     <div class="container py-5">

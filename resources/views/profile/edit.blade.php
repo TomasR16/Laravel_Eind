@@ -1,38 +1,46 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="row">
-
+<div class="h-100 d-flex align-items-center justify-content-center">
     <div class="col-lg-8">
+        <br>
         <div class="card mb-4">
-            <div class="card-body">
-                <div class="row">
-                    <div class="col-sm-3">
-                        <p class="mb-0">Full Name</p>
+            <form method="post" action="{{ route('profile.update', Auth::user()->id) }}" enctype="multipart/form-data">
+                @method('PATCH')
+                @csrf
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <p class="mb-0">Full Name:</p>
+                        </div>
+                        <div class="col-sm-9">
+                            <input class="" type="text" name="name" value="{{Auth::user()->name}}" />
+                        </div>
                     </div>
-                    <div class="col-sm-9">
-                        <p class="text-muted mb-0">{{Auth::user()->name}}</p>
+                    <hr>
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <p class="mb-0">Email:</p>
+                        </div>
+                        <div class="col-sm-9">
+                            <input class="" type="text" name="email" value="{{Auth::user()->email}}" />
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <p class="mb-0">Password:</p>
+                        </div>
+                        <div class="col-sm-9">
+                            <input class="" style="width: 600px;" name="password" type="text" value="{{Auth::user()->password}}" />
+                        </div>
                     </div>
                 </div>
-                <hr>
-                <div class="row">
-                    <div class="col-sm-3">
-                        <p class="mb-0">Email</p>
-                    </div>
-                    <div class="col-sm-9">
-                        <p class="text-muted mb-0">{{Auth::user()->email}}</p>
-                    </div>
+                <div class="">
+                    <button type="submit" class="btn btn-primary">Update</button>
+                    <a class="btn btn-danger" href="{{ route('profile.index') }}">Cancel</a>
                 </div>
-                <hr>
-                <div class="row">
-                    <div class="col-sm-3">
-                        <p class="mb-0">password</p>
-                    </div>
-                    <div class="col-sm-9">
-                        <p class="text-muted mb-0">{{Auth::user()->password}}</p>
-                    </div>
-                </div>
-            </div>
+            </form>
         </div>
 
     </div>
