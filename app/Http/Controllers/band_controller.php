@@ -11,6 +11,7 @@ use App\Models\BandUser;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use League\CommonMark\Extension\CommonMark\Node\Inline\Strong;
 
 class Band_controller extends Controller
 {
@@ -86,8 +87,6 @@ class Band_controller extends Controller
             $fileNameToStore = $filename . '_' . time() . '.' . $extension;
             // Upload Image
             $path = $request->file('photo')->storeAs('public/photo', $fileNameToStore);
-        } else {
-            $fileNameToStore = 'noimage.jpg';
         }
 
         $band->photo = $fileNameToStore;
@@ -146,12 +145,17 @@ class Band_controller extends Controller
             'bio' => 'required',
             'photo' => 'image|nullable|max:1999'
         ]);
+        $oldImage = $band->photo;
+        //dd($oldImage);
 
         // Update band fields name etc.
         $band->update($request->all());
 
+
         // Handle File Upload
         if ($request->hasFile('photo')) {
+            
+            Storage::delete('/public/photo/' . $oldImage);
 
             // Get filename with extension            
             $filenameWithExt = $request->file('photo')->getClientOriginalName();
@@ -163,6 +167,8 @@ class Band_controller extends Controller
             $fileNameToStore = $filename . '_' . time() . '.' . $extension;
             // Upload Image
             $path = $request->file('photo')->storeAs('public/photo', $fileNameToStore);
+
+
             // get file name in storage/photo form Ariane5_1657926082.jpg
             $band->photo = $fileNameToStore;
             // update existing model

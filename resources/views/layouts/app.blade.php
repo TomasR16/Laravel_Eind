@@ -72,6 +72,9 @@
                         <a class="dropdown-item" href="{{route('profile.index')}}">
                             {{ __('Profile') }}
                         </a>
+                        <a class="dropdown-item" href="{{route('changepassword')}}">
+                            {{ __('Change password') }}
+                        </a>
                         <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
                             {{ __('Logout') }}

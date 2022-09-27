@@ -27,9 +27,15 @@ Auth::routes();
 
 
 Route::group(['middelware' => ['auth']], function () {
-    // add route 
+
+    // add routes 
     Route::resource('band', 'App\Http\Controllers\Band_controller');
     Route::resource('profile', 'App\Http\Controllers\UserController');
+
+    // Adding routes for password change
+    Route::get('/changepassword', 'App\Http\Controllers\PasswordController@edit')->name('changepassword');
+    Route::post('/updatepassword/{id}', 'App\Http\Controllers\PasswordController@update')->name('updatepassword');
+
     // require HomeController
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 });

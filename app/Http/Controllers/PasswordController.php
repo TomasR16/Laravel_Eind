@@ -2,23 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-
-// import Models
-use App\Models\Band;
-use App\Models\BandUser;
 use App\Models\User;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Hash;
 
-class UserController extends Controller
+class PasswordController extends Controller
 {
-    // Contructor method 
-    public function __construct()
-    {
-        // Must be logged in to see contacts!
-        $this->middleware('auth', ['except' => ['login', 'show']]);
-    }
     /**
      * Display a listing of the resource.
      *
@@ -26,8 +15,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = Auth::user();
-        return view('profile.index', compact('users'));
+        //
     }
 
     /**
@@ -68,12 +56,11 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(User $user)
+    public function edit()
     {
-        // Get user object
-        // $users = Auth::user()->id;
-        // return view with user object 
-        return view('profile.edit');
+        $user = Auth::user();
+        // Return view changepassword
+        return view('profile.changepassword', compact('user'));
     }
 
     /**
@@ -83,27 +70,20 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, User $user)
+    public function update(Request $request, $id)
     {
+        //
+        $this->validate($request, [
+            'old_password' => 'required',
+            'password' => 'required',
+            'password_confirmation' => 'required|same:password'
+        ]);
 
-        $user = Auth::user();
-        //validation rules
-        // $request->validate([
-        //     'name' => 'string',
-        //     'email' => 'required|between:3,64|email|unique:users',
-        //     'password' => 'string'
-        // ]);
+        $user = User::findOrFail($id);
+        $user->password = bcrypt($request->password);
+        $user->save();
 
-        $user->name = $request->name;
-        $user->email = $request->email;
-        // Als user password niet gelijk is aan wachtwoord in request maak new ww
-        // if ($user->password != $request->password) {
-        //     $user->password = Hash::make($request->password);
-        // }
-        $user->save($request->all());
-
-        // return to index
-        return redirect('/profile')->with('success', 'Profile updated');
+        return redirect()->route('profile.index')->with('success', 'Password changed');
     }
 
     /**

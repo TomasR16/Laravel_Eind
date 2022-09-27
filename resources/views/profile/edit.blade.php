@@ -5,6 +5,16 @@
     <div class="col-lg-8">
         <br>
         <div class="card mb-4">
+            @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+            <br />
+            @endif
             <form method="post" action="{{ route('profile.update', Auth::user()->id) }}" enctype="multipart/form-data">
                 @method('PATCH')
                 @csrf
@@ -29,16 +39,12 @@
                     <hr>
                     <div class="row">
                         <div class="col-sm-3">
-                            <p class="mb-0">Password:</p>
+                            <a class="btn btn-danger" href="{{ route('profile.index') }}">Cancel</a>
                         </div>
                         <div class="col-sm-9">
-                            <input class="" style="width: 600px;" name="password" type="text" value="{{Auth::user()->password}}" />
+                            <button type="submit" class="btn btn-primary">Update</button>
                         </div>
                     </div>
-                </div>
-                <div class="">
-                    <button type="submit" class="btn btn-primary">Update</button>
-                    <a class="btn btn-danger" href="{{ route('profile.index') }}">Cancel</a>
                 </div>
             </form>
         </div>

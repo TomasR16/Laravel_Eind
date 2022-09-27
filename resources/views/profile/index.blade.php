@@ -60,10 +60,10 @@
                         <hr>
                         <div class="row">
                             <div class="col-sm-3">
-                                <p class="mb-0">password</p>
+                                <p class="mb-0">Password</p>
                             </div>
                             <div class="col-sm-9">
-                                <p class="text-muted mb-0">{{Auth::user()->password}}</p>
+                                <a href="{{ route('changepassword') }}">Change Password</a>
                             </div>
                         </div>
                     </div>

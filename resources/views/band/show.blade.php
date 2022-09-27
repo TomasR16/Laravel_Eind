@@ -2,7 +2,7 @@
 
 @section('content')
 
-<div class="row">
+<div class="h-100 d-flex align-items-center justify-content-center">
     <div class="col-sm-8 offset-sm-2">
 
         @if ($errors->any())
@@ -32,7 +32,11 @@
                 <h2>id {{$user->id}}: {{$user->name}}</h2>
                 @endforeach
             </div>
-            <img style="width: 75%; height: 75%" src="/storage/photo/{{$band->photo}}" alt="Band photograph" >
+            <hr>
+            
+            @if (!empty($band->photo))
+            <img class="rounded" style="width: 75%; height: 75%" src="/storage/photo/{{$band->photo}}" alt="Band photograph">
+            @endif
         </div>
         <div>
             <a style="margin: 19px;" href="{{ route('band.index')}}" class="btn btn-primary">&larr; back</a>
