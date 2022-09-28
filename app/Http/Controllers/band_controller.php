@@ -12,6 +12,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use League\CommonMark\Extension\CommonMark\Node\Inline\Strong;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 class Band_controller extends Controller
 {
@@ -28,10 +29,21 @@ class Band_controller extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function index()
+    public function index(Request $request)
     {
-        // get all bands from Band object 
-        $band = Band::all();
+
+        // ophalen $keyword uit Request object
+        $keyword = $request->keyword;
+
+        // Als $keyword gevuld is
+        if (isset($keyword)) {
+            // Zoek keyword in Band::contactSearch
+            $band = Band::bandSearch($keyword);
+        } else {
+            // Haal alle Contacten
+            $band = Band::all();
+        }
+
         // return to view with band
         return view('band.index', compact('band'));
     }
@@ -44,9 +56,13 @@ class Band_controller extends Controller
     public function create(Band $band)
     {
         // select name and id from User object
-        $users = User::pluck('name', 'id');
+        if (Auth::user()) {
+            $users = User::pluck('name', 'id');
+            return view('band.create', compact('band', 'users'));
+        } else {
+            return redirect()->route('login');
+        }
         // return view band edit with values
-        return view('band.create', compact('band', 'users'));
     }
 
     /**
@@ -87,9 +103,9 @@ class Band_controller extends Controller
             $fileNameToStore = $filename . '_' . time() . '.' . $extension;
             // Upload Image
             $path = $request->file('photo')->storeAs('public/photo', $fileNameToStore);
+            $band->photo = $fileNameToStore;
         }
 
-        $band->photo = $fileNameToStore;
         $band->save();
         // Go to index
         return redirect()->route('band.index')->with('success', 'Band created!');
@@ -107,7 +123,7 @@ class Band_controller extends Controller
         if (Auth::user()) {
             return view('band.show', compact('band'));
         } else {
-            return redirect()->route('band.index');
+            return redirect()->route('login');
         }
     }
 
@@ -119,11 +135,15 @@ class Band_controller extends Controller
      */
     public function edit(Band $band)
     {
-        // select name and id from User object
-        $users = User::all('name', 'id');
+        if (Auth::user()) {
+            // select name and id from User object
+            $users = User::all('name', 'id');
 
-        // return view band edit with values
-        return view('band.edit', compact('band', 'users'));
+            // return view band edit with values
+            return view('band.edit', compact('band', 'users'));
+        } else {
+            return redirect()->route('login');
+        }
     }
 
     /**
@@ -154,7 +174,7 @@ class Band_controller extends Controller
 
         // Handle File Upload
         if ($request->hasFile('photo')) {
-            
+
             Storage::delete('/public/photo/' . $oldImage);
 
             // Get filename with extension            

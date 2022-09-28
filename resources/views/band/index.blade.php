@@ -9,17 +9,32 @@
     </div>
     @endif
 </div>
-
-
-
-
-<div>
-    <a style="margin: 12px;" href="{{ route('band.create')}}" class="btn btn-primary">Create band</a>
+<br>
+<!-- Begin Search -->
+<div class="row">
+    {!! Form::open(['method'=>'GET','url'=>'/band/','class'=>'navbar-form navbar-left','role'=>'search']) !!}
+    <div class="input-group custom-search-form">
+        <input type="text" class="form-control" name="keyword" placeholder="Search Bands">
+        <span class="input-group-btn">
+            <button class="btn btn-default-sm" type="submit">
+                <i class="fa fa-search"><span class="glyphicon glyphicon-search" />
+            </button>
+        </span>
+    </div>
+    {!! Form::close() !!}
 </div>
+<!-- END Search -->
+
+
 <div class="row">
     <div class="col-sm-12">
-        <h1 class="display-3">Bands:</h1>
-       
+        <div class="col-sm-12">
+
+            <h1 class="display-9">Bands:</h1>
+            <a style="margin: 12px;" href="{{ route('band.create')}}" class="btn btn-primary">Create band</a>
+        </div>
+
+
         <table class="table table-striped">
             <thead>
                 <tr>

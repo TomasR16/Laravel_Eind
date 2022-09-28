@@ -26,8 +26,12 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = Auth::user();
-        return view('profile.index', compact('users'));
+        if (Auth::user()) {
+            $users = Auth::user();
+            return view('profile.index', compact('users'));
+        } else {
+            return redirect()->route('band.index');
+        }
     }
 
     /**
@@ -73,7 +77,11 @@ class UserController extends Controller
         // Get user object
         // $users = Auth::user()->id;
         // return view with user object 
-        return view('profile.edit');
+        if (Auth::user()) {
+            return view('profile.edit');
+        } else {
+            return redirect()->route('band.index');
+        }
     }
 
     /**

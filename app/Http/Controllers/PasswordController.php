@@ -8,6 +8,12 @@ use Illuminate\Support\Facades\Auth;
 
 class PasswordController extends Controller
 {
+    // Contructor method 
+    public function __construct()
+    {
+        // Must be logged in to see contacts!
+        $this->middleware('auth', ['except' => ['login', 'show']]);
+    }
     /**
      * Display a listing of the resource.
      *
