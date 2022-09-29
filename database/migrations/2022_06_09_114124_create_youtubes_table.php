@@ -15,6 +15,8 @@ return new class extends Migration
     {
         Schema::create('youtubes', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('band_id')->constrained();
+            $table->string('url', 2000);
         });
     }
 

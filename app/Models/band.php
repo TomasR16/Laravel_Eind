@@ -13,15 +13,22 @@ class Band extends Model
 
 
     protected $fillable = [
-        'band_name', 'bio', 'photo'
+        'band_name', 'bio', 'photo',
     ];
 
+    // Create relationship with users
     public function users()
     {
 
         return $this->belongsToMany(
             User::class
         );
+    }
+
+    // Create relationship with Youtube tables
+    public function youtubes()
+    {
+        return $this->hasMany(Youtube::class);
     }
 
     public static function bandSearch($name)

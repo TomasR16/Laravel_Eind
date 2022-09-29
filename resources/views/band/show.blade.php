@@ -25,6 +25,19 @@
                 <br>
                 <p class="jumbotron h3">{{$band->bio}}</p>
                 <hr>
+                <p class="jumbotron h3">{{$band->bio}}</p>
+                <hr>
+
+                <h4>{{ $band->url }}</h4>
+                <br>
+                <div class="media">
+                    <div class="media-body">
+                        <iframe width="560" height="315" src="{{ $band->url }}" frameborder="0" allowfullscreen>
+                        </iframe>
+                    </div>
+                </div>
+                <br>
+                <hr>
                 <h1 class="jumbotron h1">Members:</h1>
                 <br>
                 <!-- Show band users -->
@@ -33,7 +46,7 @@
                 @endforeach
             </div>
             <hr>
-            
+
             @if (!empty($band->photo))
             <img class="rounded" style="width: 75%; height: 75%" src="/storage/photo/{{$band->photo}}" alt="Band photograph">
             @endif

@@ -42,7 +42,7 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-
+    // Create relationship with band
     public function bands()
     {
    

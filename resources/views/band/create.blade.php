@@ -28,6 +28,14 @@
                 <label for="bio">Band biography:</label>
                 <input type="text" class="form-control" name="bio" />
             </div>
+            <!-- URL  -->
+            <div class="form-group">
+                <label for="photo">Upload URL:</label>
+                <input type="text" class="form-control" name="url" />
+                <br>
+
+            </div>
+
             <div class="form-group">
                 <label for="photo">Upload Photo:</label>
                 <br>

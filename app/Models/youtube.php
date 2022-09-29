@@ -9,5 +9,10 @@ class Youtube extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['video_id', 'band_id'];
+    protected $fillable = ['url', 'band_id'];
+
+    public function bands()
+    {
+        return $this->belongsTo(Band::class);
+    }
 }

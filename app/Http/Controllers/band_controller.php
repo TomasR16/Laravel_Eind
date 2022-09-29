@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use App\Models\Band;
 use App\Models\BandUser;
 use App\Models\User;
+use App\Models\Youtube;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use League\CommonMark\Extension\CommonMark\Node\Inline\Strong;
@@ -77,11 +78,15 @@ class Band_controller extends Controller
         $request->validate([
             'band_name' => 'required',
             'bio' => 'required',
+            'url' => 'required',
             // nullable == optional
             // apache max upload 2mb
             'photo' => 'image|nullable|max:1999'
         ]);
+        $video = new Youtube();
+        $video->url = $request->input('url');
 
+        //dd($request);
         // Create new band
         $band = Band::create($request->all());
 
