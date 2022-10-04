@@ -15,8 +15,9 @@ return new class extends Migration
     {
         Schema::create('youtubes', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('band_id')->constrained();
+            $table->foreignId('band_id')->constrained()->nullable()->onDelete('cascade');
             $table->string('url', 2000);
+            $table->timestamps();
         });
     }
 

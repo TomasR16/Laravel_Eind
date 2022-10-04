@@ -16,7 +16,7 @@ class Band extends Model
         'band_name', 'bio', 'photo',
     ];
 
-    // Create relationship with users
+    // Create manyToMany relationship with user
     public function users()
     {
 
@@ -25,7 +25,7 @@ class Band extends Model
         );
     }
 
-    // Create relationship with Youtube tables
+    // Create one to many relationship with Youtube
     public function youtubes()
     {
         return $this->hasMany(Youtube::class);

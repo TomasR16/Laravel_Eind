@@ -9,8 +9,11 @@ class Youtube extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['url', 'band_id'];
+   //public $timestamps = false;
 
+    protected $fillable = ['band_id', 'url'];
+
+    // create oneToMany relationship with Band
     public function bands()
     {
         return $this->belongsTo(Band::class);

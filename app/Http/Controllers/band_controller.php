@@ -63,7 +63,6 @@ class Band_controller extends Controller
         } else {
             return redirect()->route('login');
         }
-        // return view band edit with values
     }
 
     /**
@@ -72,21 +71,19 @@ class Band_controller extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, Band $band)
+    public function store(Request $request, Band $band, Youtube $video)
     {
+
         // validate input data
         $request->validate([
             'band_name' => 'required',
             'bio' => 'required',
-            'url' => 'required',
+            //'url' => 'required',
             // nullable == optional
             // apache max upload 2mb
             'photo' => 'image|nullable|max:1999'
         ]);
-        $video = new Youtube();
-        $video->url = $request->input('url');
 
-        //dd($request);
         // Create new band
         $band = Band::create($request->all());
 
@@ -112,6 +109,22 @@ class Band_controller extends Controller
         }
 
         $band->save();
+
+        // Make new object for URL's
+        $video = new Youtube();
+
+        // Get band_id
+        $video->band_id = $band->id;
+
+        // Find current band
+        $band = Band::find($video->band_id);
+
+        // Get url from input
+        $video->url = $request->input('url');
+        //dd($video);
+        // $video->bands()->save($video);
+        $band->youtubes()->save($video);
+
         // Go to index
         return redirect()->route('band.index')->with('success', 'Band created!');
     }
@@ -143,7 +156,6 @@ class Band_controller extends Controller
         if (Auth::user()) {
             // select name and id from User object
             $users = User::all('name', 'id');
-
             // return view band edit with values
             return view('band.edit', compact('band', 'users'));
         } else {

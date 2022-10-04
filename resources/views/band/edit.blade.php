@@ -66,6 +66,7 @@
                     <thead>
                         <h2>Current band users:</h2>
                     </thead>
+                    @if(isset($band->users))
                     @foreach($band->users as $user)
                     <tr>
                         <td>
@@ -75,6 +76,7 @@
                     </tr>
                     <br>
                     @endforeach
+                    @endif
                 </tbody>
             </table>
         </div>
