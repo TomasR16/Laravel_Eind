@@ -48,12 +48,14 @@
             <br>
             <hr>
             <!-- Embeded video -->
-            <h4>{{ $band->url }}</h4>
+            <!-- <h4>{{ $band->url }}</h4> -->
             <br>
             <div class="media">
                 <div class="media-body">
-                    <iframe width="560" height="315" src="{{ $band->url }}" frameborder="0" allowfullscreen>
+                    @foreach($band->youtubes as $tubes)
+                    <iframe width="560" height="315" src="{{ $tubes->url }}" frameborder="0" allowfullscreen>
                     </iframe>
+                    @endforeach
                 </div>
             </div>
         </div>

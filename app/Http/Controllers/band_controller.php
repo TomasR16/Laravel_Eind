@@ -56,8 +56,8 @@ class Band_controller extends Controller
      */
     public function create(Band $band)
     {
-        // select name and id from User object
         if (Auth::user()) {
+            // select name and id from User object
             $users = User::pluck('name', 'id');
             return view('band.create', compact('band', 'users'));
         } else {
@@ -137,9 +137,12 @@ class Band_controller extends Controller
      */
     public function show(Band $band)
     {
+
+        $youtube = Youtube::all();
+
         // Show band EPK
         if (Auth::user()) {
-            return view('band.show', compact('band'));
+            return view('band.show', compact('band', 'youtube'));
         } else {
             return redirect()->route('login');
         }
