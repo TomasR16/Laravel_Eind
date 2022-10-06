@@ -11,7 +11,7 @@ class PasswordController extends Controller
     // Contructor method 
     public function __construct()
     {
-        // Must be logged in to see contacts!
+        // Must be logged in to see Anything!
         $this->middleware('auth', ['except' => ['login', 'show']]);
     }
     /**
@@ -64,6 +64,7 @@ class PasswordController extends Controller
      */
     public function edit()
     {
+        // Get user from user object
         $user = Auth::user();
         // Return view changepassword
         return view('profile.changepassword', compact('user'));
@@ -78,15 +79,17 @@ class PasswordController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        // Validate that fields are filled
         $this->validate($request, [
             'old_password' => 'required',
             'password' => 'required',
             'password_confirmation' => 'required|same:password'
         ]);
-
+        // Find user id
         $user = User::findOrFail($id);
+        // Encrypt new password
         $user->password = bcrypt($request->password);
+        // Save new password to DB
         $user->save();
 
         return redirect()->route('profile.index')->with('success', 'Password changed');

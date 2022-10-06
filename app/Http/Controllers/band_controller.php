@@ -20,7 +20,7 @@ class Band_controller extends Controller
     // Contructor method 
     public function __construct()
     {
-        // Must be logged in to see contacts!
+        // Must be logged in to see anything!
         $this->middleware('auth', ['except' => ['login', 'show']]);
     }
 
@@ -33,15 +33,15 @@ class Band_controller extends Controller
     public function index(Request $request)
     {
 
-        // ophalen $keyword uit Request object
+        // Get $keyword from request object
         $keyword = $request->keyword;
 
-        // Als $keyword gevuld is
+        // If keyword is filled 
         if (isset($keyword)) {
-            // Zoek keyword in Band::contactSearch
+            // Call static method bandsearch for keyword
             $band = Band::bandSearch($keyword);
         } else {
-            // Haal alle Contacten
+            // Return all contacts
             $band = Band::all();
         }
 
@@ -78,7 +78,7 @@ class Band_controller extends Controller
         $request->validate([
             'band_name' => 'required',
             'bio' => 'required',
-            //'url' => 'required',
+            'url' => 'required',
             // nullable == optional
             // apache max upload 2mb
             'photo' => 'image|nullable|max:1999'
@@ -103,11 +103,13 @@ class Band_controller extends Controller
             $extension = $request->file('photo')->getClientOriginalExtension();
             //Filename to store
             $fileNameToStore = $filename . '_' . time() . '.' . $extension;
-            // Upload Image
+            // Store file in storage\public\photo
             $path = $request->file('photo')->storeAs('public/photo', $fileNameToStore);
+            // Store file as band->photo
             $band->photo = $fileNameToStore;
         }
 
+        // Send data to database
         $band->save();
 
         // Make new object for URL's
@@ -121,8 +123,7 @@ class Band_controller extends Controller
 
         // Get url from input
         $video->url = $request->input('url');
-        //dd($video);
-        // $video->bands()->save($video);
+        // save url to database
         $band->youtubes()->save($video);
 
         // Go to index
@@ -137,11 +138,11 @@ class Band_controller extends Controller
      */
     public function show(Band $band)
     {
-
+        // get youtube videos from object
         $youtube = Youtube::all();
 
-        // Show band EPK
         if (Auth::user()) {
+            // Show band EPK
             return view('band.show', compact('band', 'youtube'));
         } else {
             return redirect()->route('login');
@@ -154,6 +155,7 @@ class Band_controller extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
+
     public function edit(Band $band)
     {
         if (Auth::user()) {
@@ -173,28 +175,39 @@ class Band_controller extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Band $band)
+    public function update(Request $request, Band $band, Youtube $video)
     {
 
-        // attach an user to band
+        // attach an user to a band
         $band->users()->syncWithoutDetaching($request->input()['users']);
 
         // validate input data
         $request->validate([
             'band_name' => 'required',
             'bio' => 'required',
-            'photo' => 'image|nullable|max:1999'
+            'photo' => 'image|nullable|max:1999',
+            'url' => 'required'
         ]);
+        // store old image 
         $oldImage = $band->photo;
-        //dd($oldImage);
 
         // Update band fields name etc.
         $band->update($request->all());
 
+        // Get band_id
+        $video->band_id = $band->id;
+        // Find current band
+        $band = Band::find($video->band_id);
+        // Delete old band youtubes field 
+        $band->youtubes()->delete($band);
+        // Get url from input
+        $video->url = $request->input('url');
+        // Save new URL to youtubes
+        $band->youtubes()->save($video);
 
-        // Handle File Upload
+        // Handle new File Upload
         if ($request->hasFile('photo')) {
-
+            // Delete old photo
             Storage::delete('/public/photo/' . $oldImage);
 
             // Get filename with extension            
@@ -205,13 +218,11 @@ class Band_controller extends Controller
             $extension = $request->file('photo')->getClientOriginalExtension();
             //Filename to store
             $fileNameToStore = $filename . '_' . time() . '.' . $extension;
-            // Upload Image
+            // Store file in storage\public\photo
             $path = $request->file('photo')->storeAs('public/photo', $fileNameToStore);
-
-
-            // get file name in storage/photo form Ariane5_1657926082.jpg
+            // store file as band->photo
             $band->photo = $fileNameToStore;
-            // update existing model
+            // update existing model object 
             $band->save();
         }
 
@@ -227,7 +238,6 @@ class Band_controller extends Controller
      */
     public function destroy(Band $band)
     {
-        //dd($band);
         // detach users from band
         $band->users()->detach();
         // Get band id and delete

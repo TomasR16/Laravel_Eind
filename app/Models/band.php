@@ -31,6 +31,7 @@ class Band extends Model
         return $this->hasMany(Youtube::class);
     }
 
+    // search method 
     public static function bandSearch($name)
     {
         return Band::where('band_name', 'LIKE', "%$name%")->orWhere('bio', 'LIKE', "%$name%")->get();

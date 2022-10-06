@@ -16,7 +16,7 @@ class UserController extends Controller
     // Contructor method 
     public function __construct()
     {
-        // Must be logged in to see contacts!
+        // Must be logged in to see Anything!
         $this->middleware('auth', ['except' => ['login', 'show']]);
     }
     /**
@@ -27,6 +27,7 @@ class UserController extends Controller
     public function index()
     {
         if (Auth::user()) {
+            // Get user from user Object
             $users = Auth::user();
             return view('profile.index', compact('users'));
         } else {
@@ -72,11 +73,8 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(User $user)
+    public function edit()
     {
-        // Get user object
-        // $users = Auth::user()->id;
-        // return view with user object 
         if (Auth::user()) {
             return view('profile.edit');
         } else {
@@ -91,23 +89,21 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, User $user)
+    public function update(Request $request)
     {
 
         $user = Auth::user();
         //validation rules
-        // $request->validate([
-        //     'name' => 'string',
-        //     'email' => 'required|between:3,64|email|unique:users',
-        //     'password' => 'string'
-        // ]);
+        $request->validate([
+            'name' => 'required | regex:/^([a-zA-Z]+)(\s[a-zA-Z]+)*$/',
+            'email' => 'required',
 
+        ]);
+        // Get name from request and store 
         $user->name = $request->name;
+        // Get email from request and store
         $user->email = $request->email;
-        // Als user password niet gelijk is aan wachtwoord in request maak new ww
-        // if ($user->password != $request->password) {
-        //     $user->password = Hash::make($request->password);
-        // }
+        // update user settings 
         $user->save($request->all());
 
         // return to index

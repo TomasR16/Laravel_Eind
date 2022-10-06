@@ -20,12 +20,12 @@ Route::get('/', function () {
 });
 
 
-
+// helper class that helps you generate all the routes required for user authentication.
 Auth::routes();
 
 
 
-
+// Gebruiker moet authenticated zijn om routes te mogen kiezen
 Route::group(['middelware' => ['auth']], function () {
 
     // add routes 
@@ -36,6 +36,6 @@ Route::group(['middelware' => ['auth']], function () {
     Route::get('/changepassword', 'App\Http\Controllers\PasswordController@edit')->name('changepassword');
     Route::post('/updatepassword/{id}', 'App\Http\Controllers\PasswordController@update')->name('updatepassword');
 
-    // require HomeController
+    //  Standard require HomeController
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 });

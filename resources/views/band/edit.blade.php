@@ -32,6 +32,15 @@
                 </div>
 
                 <div class="form-group">
+                    <label for="last_name">URL:</label>
+
+                    @foreach($band->youtubes as $tubes)
+                    <input type="text" class="form-control" width="5" name="url" value="{{ $tubes->url }}" />
+                    @endforeach()
+
+                </div>
+
+                <div class="form-group">
                     <label for="photo">Upload Photo:</label>
                     <br>
                     {{Form::file('photo')}}
