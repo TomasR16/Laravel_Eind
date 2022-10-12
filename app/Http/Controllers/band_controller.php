@@ -204,8 +204,8 @@ class Band_controller extends Controller
         $video->url = $request->input('url');
         // Save new URL to youtubes
         $band->youtubes()->save($video);
-
-        // Handle new File Upload
+          
+        // Handle new File Upload TODO
         if ($request->hasFile('photo')) {
             // Delete old photo
             Storage::delete('/public/photo/' . $oldImage);
