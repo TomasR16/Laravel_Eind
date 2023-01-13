@@ -1,8 +1,8 @@
 @extends('layouts.app')
-
+<link rel="stylesheet" href="/css/bandShow.css">
 @section('content')
 
-<div class="h-100 d-flex align-items-center justify-content-center">
+<div class="main">
     <div class="col-sm-8 offset-sm-2">
 
         @if ($errors->any())
@@ -38,9 +38,10 @@
                         @endif
                     </div>
                     <hr>
-                    <div class="">
+                    <!-- Band Banner -->
+                    <div class="frame-square">
                         @if (!empty($band->photo))
-                        <img class="rounded" style="width: 75%; height: 75%" src="/storage/photo/{{$band->photo}}" alt="Band photograph">
+                        <img class="rounded" src="/storage/photo/{{$band->photo}}" alt="Band photograph">
                         @endif
                     </div>
                 </div>
@@ -48,18 +49,17 @@
             <br>
             <hr>
             <!-- Embeded video -->
-            <!-- <h4>{{ $band->url }}</h4> -->
             <br>
             <div class="media">
                 <div class="media-body">
                     @foreach($band->youtubes as $tubes)
-                    <iframe width="560" height="315" src="{{ $tubes->url }}" frameborder="0" allowfullscreen>
-                    </iframe>
+                    <x-embed url="{{$tubes->url}}" />
                     @endforeach
                 </div>
             </div>
         </div>
-        <div>
+        <!-- Button -->
+        <div class="button">
             <a style="margin: 19px;" href="{{ route('band.index')}}" class="btn btn-primary">&larr; back</a>
         </div>
     </div>
