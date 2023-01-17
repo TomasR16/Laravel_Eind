@@ -33,7 +33,7 @@
                         @if(isset($band->users))
                         <!-- Show band users -->
                         @foreach($band->users as $user)
-                        <h2>id {{$user->id}}: {{$user->name}}</h2>
+                        <h2>{{$user->name}}</h2>
                         @endforeach
                         @endif
                     </div>
@@ -53,7 +53,7 @@
             <div class="media">
                 <div class="media-body">
                     @foreach($band->youtubes as $tubes)
-                    <x-embed url="{{$tubes->url}}" />
+                    <x-embed url="{{$tubes->url}}" aspect-ratio="16:9" />
                     @endforeach
                 </div>
             </div>
