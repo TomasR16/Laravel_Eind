@@ -40,10 +40,10 @@
     transform: translate(-50%, -50%);
 }
 
-.thumbnail img.portrait {
+/* .thumbnail img.portrait {
     width: 100%;
     height: 100%;
-}
+} */
 
 /* Band video */
 .media {
